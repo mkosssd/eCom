@@ -1,0 +1,26 @@
+
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap");
+
+
+* {
+  font-family: "Inter", sans-serif;
+  font-display: initial;
+}
+
+
+html,
+body {
+  font-display: initial;
+  color: black !important;
+  height: 100%;
+  background-color: #f8f9fa !important;
+
+  img {
+    object-fit: contain;
+  }
+}
+
+
+input.ng-invalid.ng-touched {
+  border: 1px solid red;
+}

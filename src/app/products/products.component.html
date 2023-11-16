@@ -1,0 +1,202 @@
+<div class="container-xxl text-center" *ngIf="products || !isLoading">
+  <div class="row">
+    <div class="col-12 d-flex flex-row-reverse d-xl-none d-block">
+      <button (click)="toggleSideBar()" class="btn d-xl-none d-block bg-white" id="btn" aria-label="toggle sidebar"
+        type="button">
+        <img src="../../assets/menu.png" alt="" width="16px" height="16px">
+      </button>
+    </div>
+    <div id="sideBar" *ngIf="products && categories && categories.length > 0">
+      <div class="row">
+        <div class="col-12" (click)="toggleSideBar()" id="overlay"></div>
+        <div class="col-2 py-4 px-3 h-100 ms-0 me-5 rounded text-start" id="filterBar" *ngIf="products || isLoading">
+          <div>
+            <p class="h4 fw-medium ms-2 fw-semibold">FILTERS</p>
+            <div class="col-12">
+              <div class="accordion border my-2 rounded" id="accordionExample">
+                <div class="accordion-item rounded">
+                  <h2 class="accordion-header">
+                    <button class="accordion-button" type="button" data-bs-toggle="collapse"
+                      data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                      CATEGORIES
+                    </button>
+                  </h2>
+                </div>
+                <div id="collapseOne" class="accordion-collapse collapse show" data-bs-parent="#accordionExample">
+                  <div class="accordion-body">
+                    <div *ngFor="let cat of categories; index as i" (change)="categoryFilter(cat)">
+                      <label for="{{ cat.name }}" class="form-control p-0">
+                        <input type="checkbox" id="{{ cat.name }}" (change)="onCheckboxChange()" class="checkbox"
+                          [checked]="
+                            defCategoryRoute === cat.name
+                              ? true
+                              : false && cat.checked
+                          " />
+
+                        <span class="mt-1">
+                          {{ cat.name | uppercase }}
+                        </span>
+                      </label>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="col-12">
+              <div class="accordion rounded" id="accordion">
+                <div class="accordion-item">
+                  <h2 class="accordion-header">
+                    <button class="accordion-button" type="button" data-bs-toggle="collapse"
+                      data-bs-target="#collapsePrice" aria-expanded="true" aria-controls="collapsePrice">
+                      PRICE
+                    </button>
+                  </h2>
+
+                  <div id="collapsePrice" class="accordion-collapse collapse show" data-bs-parent="#accordion">
+                    <div class="accordion-body">
+                      <div class="custom-slider">
+                        <ngx-slider [(value)]="minValue" [(highValue)]="maxValue" [options]="options" *ngIf="isBrowser"
+                          (userChange)="priceRangeFilter($event)"></ngx-slider>
+                      </div>
+                      <div class="col-12 d-flex text-center">
+                        <div class="col-5">
+                          <input class="form-control border col-12" type="number" #minUserValue id="minUserValue"
+                            value="{{ minValue }}" (change)="priceFilter(+minUserValue.value, 'min')"
+                            max="{{ +maxValue - 100 }}" step="100" min="0" />
+                          <label for="maxUserValue" class="col-12 fw-semibold small">Min Price</label>
+                        </div>
+
+                        <span class="text-secondary m-2">to</span>
+                        <div class="col-5">
+                          <input class="col-12 form-control border " step="100" type="number" #maxUserValue
+                            id="maxUserValue" value="{{ maxValue }}" (change)="
+                              priceFilter(
+                                +maxUserValue.value,
+
+                                'max'
+                              )
+                            " max="2000" min="{{ +minUserValue.value + 100 }}" />
+                          <label for="minUserValue" class="col-12 fw-semibold small">Max Price</label>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+ 
+    <div *ngIf="products && products.length === 0 && !isLoading" class="mt-5 pt-5 ms-5 ps-5">
+      <p class="text-black display-5">No More Products.</p>
+      <p class="text-black">
+        Redirect to
+        <a href="/products" class="text-decoration-none text-primary fw-semibold">HomePage</a>
+        ?
+      </p>
+    </div>
+    <cdk-virtual-scroll-viewport [style.height]="'100vh'" [itemSize]="products.length">
+    <div class="col-12 col-lg-10 mx-auto" *ngIf="products && products.length > 0">
+
+      <ul class="col-12 mx-auto list-group">
+        <li class="list-group-item py-0">
+          <div class="row p-0">
+            <div class="col-lg-2 col-3 text-start ms fw-bolder btn disabled border-0 py-3">
+              Sort By
+            </div>
+            <div class="col-xl-5 col-md-8 col-lg-6 col-9">
+              <div class="btn-group" role="group" id="btnGroup" aria-label="Basic radio toggle button group ">
+                <input type="radio" class="btn-check" name="sortRadio" id="sortAsec"
+                  [checked]="sortMeth === 'asec' ? true : false" />
+                <label (click)="addSort('asec')" class="btn border-0 py-3" for="sortAsec" id="sortAsecLabel">Price -
+                  Low to High
+                </label>
+                <input type="radio" class="btn-check" name="sortRadio" id="sortDesc"
+                  [checked]="sortMeth === 'desc' ? true : false" />
+                <label (click)="addSort('desc')" class="btn border-0 py-3" for="sortDesc">Price - High to
+                  Low</label>
+              </div>
+            </div>
+          </div>
+        </li>
+        <li class="list-group-item text-start py-3" *ngIf="selectedFiltersSorted.length > 0">
+          <span *ngFor="let filter of selectedFiltersSorted">
+            <span class="d-inline-block bg-success-subtle rounded-pill fw-semibold small px-3 py-2 m-1 lh-1">
+              {{ filter.key | uppercase }}: {{ filter.value | uppercase }}
+              <button (click)="removeFilter(filter.id)"
+                class="btn p-0 filterButton m-0 btn-close btn-sm ms-2 me-1"></button> </span></span>
+        </li>
+          <li class="list-group-item px-1" *cdkVirtualFor="let product of products; index as i">
+            <a routerLink="../product/{{ product.id }}" class="detailAnchor text-white text-decoration-none">...</a>
+            <div class="mx-sm-auto row text-decoration-none text-black">
+              <div class="col-sm-3 col-12" id="productDetail">
+                <img src="{{ product.images[0] }}" width="200px" height="200px" class="mx-sm-auto"
+                  alt="{{product.title}}" [attr.loading]="i>3?'lazy':null" [attr.fetchpriority]="i<3?'high':null" />
+              </div>
+              <div class=" col-sm-8 col-12 ">
+                <div class="row">
+
+                  <div class="col-sm-7 col-12  text-center text-lg-start">
+                    <p class="fw-semibold h6 pt-2 text-wrap text-lg-start text-center ">
+                      {{ product.title }}
+                    </p>
+                    <div class="col-12 my-2">
+
+                      <span class="bg-primary text-white small rounded-pill py-1 px-2 fw-semibold mx-2"><img
+                          src="../../assets/logo.svg" width="15px" alt="assured logo" height="15px"
+                          class="me-1 mb-1" />Assured</span>
+                      <span class="badge bg-success py-1 px-2">4.4 <img src="../../assets/star.png" width="16px"
+                          height="16px" alt="star"></span>
+                    </div>
+                    <ul class="list-group ms-4 d-none d-xl-block">
+                      <li class="py-1">
+                        Lorem ipsum dolor sit, amet consectetur elit.
+                      </li>
+                      <li class="py-1">
+                        Lorem ipsum dolor sit, amet.
+                      </li>
+
+                      <li class="py-1">Lorem ipsum.</li>
+                    </ul>
+                  </div>
+                  <div class=" col-sm-5 col-12  py-2 py-xl-5 mt-0 mt-xl-1">
+                    <div>
+                      <p class="fw-semibold h5">${{ product.price }}</p>
+                    </div>
+
+                    <div class="mt-0 mt-lg-4" id="addToCartButton">
+                      <div *ngIf="product.stock != 0">
+                        <button class="btn btn-primary rounded-pill fw-semibold btn-sm py-md-2 px-md-4 px-3 py-1"
+                          *ngIf="!product.isAdd" (click)="toggleCart(i)">
+                          Add to Cart
+                        </button>
+                        <div *ngIf="product.isAdd">
+                          <button class="btn btn-danger" (click)="productCart(i, 'remove')">
+                            -
+                          </button>
+                          <span class="mx-3">{{ product.amount || 1 }}</span>
+                          <button [disabled]="product.amount == product.stock" class="btn btn-success"
+                            (click)="productCart(i, 'add')">
+                            +
+                          </button>
+                        </div>
+                      </div>
+                      <span class="text-black" *ngIf="product.amount == product.stock">Max Stock</span>
+                      <span class="text-black" *ngIf="product.stock == 0">Out of Stock</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+          </li>
+        </ul>
+      </div>
+    </cdk-virtual-scroll-viewport>
+  </div>
+</div>
+<div class="col-1 mx-auto" *ngIf="!products || isLoading">
+  <app-loader />
+</div>

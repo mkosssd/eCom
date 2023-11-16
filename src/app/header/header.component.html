@@ -1,0 +1,116 @@
+<nav class="navbar navbar-dark bg-primary">
+  <div class="container">
+    <a class="navbar-brand fw-bold" routerLink="/">
+      <img src="\assets\logo.svg" alt="Anywhere-logo" width="40px" height="40px" />
+      Anywhere App
+    </a>
+    <div class="ms-0">
+      <span id="btns">
+        <button 
+          routerLink="/cart"
+          class="btn text-decoration-none bg-white rounded-pill"
+        >
+          <img src="../../assets/shopping-cart.png" alt="shopping-cart" width="20px" height="20px"> {{ items }}
+        </button>
+        <div class="popover bg-transparent">
+          <div class="bg-white innerDiv py-2" *ngIf="headerCart.length > 0">
+            <div class="d-flex justify-content-between header px-3">
+              <p class="h6 fw-semibold">
+                {{ items }} item<span *ngIf="items > 1">s</span>
+              </p>
+              <p class="h6 fw-semibold">${{ totalAmount }}</p>
+            </div>
+            <div
+              class="my-1 px-3"
+              *ngFor="let product of headerCart; index as i"
+            >
+              <div class="row border-bottom py-3">
+                <div class="col-4">
+                  <img src="{{ product.images[0] }}" alt="" class="img-fluid" />
+                </div>
+                <div class="col-8">
+                  <div class="col-12 fw-semibold">{{ product.title }}</div>
+                  <div class="col-12">
+                    <div class="my-2" id="addToCartButton">
+                      <div *ngIf="product.stock != 0">
+                        <div>
+                          <button
+                            class="btn btn-danger btn-sm"
+                            (click)="productCart(i, 'remove')"
+                          >
+                            -
+                          </button>
+                          <span class="mx-3">{{ product.amount || 1 }}</span>
+                          <button
+                            [disabled]="product.amount == product.stock"
+                            class="btn btn-success btn-sm"
+                            (click)="productCart(i, 'add')"
+                          >
+                            +
+                          </button>
+                        </div>
+                      </div>
+                      <span
+                        class="text-black"
+                        *ngIf="product.amount == product.stock"
+                        >Max Stock</span
+                      >
+                      <span class="text-black" *ngIf="product.stock == 0"
+                        >Out of Stock</span
+                      >
+                    </div>
+                    <div class="row">
+                      <div class="col-6">${{ product.price }}</div>
+                      <div class="col-6">
+                        Total: ${{ product.amount * product.price }}
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div
+              class="p-3 col-12 fw-semibold bg-white justify-content-between d-flex"
+            >
+              <span *ngIf="items > 3">
+                {{ items - 3 }} more item<span *ngIf="items - 3 > 1">s</span> in
+                cart
+              </span>
+              <a class="btn btn-primary btn-sm" routerLink="/cart">
+                Go to cart
+              </a>
+            </div>
+          </div>
+          <div
+            class="bg-white p-3 border mt-1 rounded text-center"
+            *ngIf="headerCart.length === 0"
+          >
+            <p class="h4">Cart is Empty.</p>
+          </div>
+        </div>
+      </span>
+
+      <a
+        class="btn bg-white ms-1 rounded-pill"
+        *ngIf="isAuth"
+        routerLink="/user-profile"
+      >
+      <img src="../../assets/user.png" alt="user" width="20px" height="20px">
+      </a>
+      <button
+        class="btn bg-white ms-1 rounded-pill"
+        *ngIf="isAuth"
+        (click)="logout()"
+      >
+        Logout
+      </button>
+      <button
+        class="btn ms-1 bg-white rounded-pill"
+        *ngIf="!isAuth"
+        routerLink="/login"
+      >
+        Login
+      </button>
+    </div>
+  </div>
+</nav>

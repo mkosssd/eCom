@@ -1,0 +1,84 @@
+<div *ngIf="dataSource.length === 0" class="text-center mt-5 pt-5">
+  <img
+    src="\assets\cart-icon.png"
+    class="mt-5 pt-5"
+    alt="empty cart"
+    height="300px"
+  />
+  <p class="m-0 fw-bold h4">Your cart is empty.</p>
+  <p class="h6 mt-3">
+    Go to homepage?
+    <a href="products?page=1" class="text-decoration-none text-info"
+      >Click here...</a
+    >
+  </p>
+</div>
+<div class="container mx-auto bg-white" *ngIf="dataSource.length > 0">
+  <div class="row">
+    <div class="">
+      <table class="table">
+        <thead>
+          <tr class="text-center">
+            <th scope="col">Image</th>
+            <th scope="col">Name</th>
+            <th scope="col">Amount</th>
+            <th scope="col">Price</th>
+            <th scope="col">Actions</th>
+            <th scope="col">Total</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let data of dataSource; index as i" class="text-center align-middle">
+            <td><img src="{{ data.images[0] }}" width="100px" alt="" /></td>
+            <td>{{ data.title }}</td>
+            <td>{{ data.amount }}</td>
+            <td>{{ data.price }}</td>
+            <td>
+              <button
+                *ngIf="data.stock != 0"
+                class="btn btn-danger btn-sm"
+                (click)="productCart(i, 'remove')"
+              >
+                -
+              </button>
+              <span *ngIf="data.stock == 0">Out of Stock</span>
+              <button
+                *ngIf="data.stock != 0"
+                class="btn btn-success btn-sm mx-1"
+                (click)="productCart(i, 'add')"
+                [disabled]="data.amount == data.stock"
+              >
+                +
+              </button>
+              <br />
+              <span class="fw-light" *ngIf="data.amount == data.stock"
+                >Max QTY</span
+              >
+            </td>
+            <td class="fw-bold">${{ data.amount * data.price }}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+<div class="card py-3 my-2 container mx-auto" *ngIf="dataSource.length > 0">
+  <div class="d-flex flex-row justify-content-between">
+    <p class="display-6 fw-medium px-3">Total Amount:</p>
+    <p class="display-6 px-3">
+      {{ totalAmount | currency : "USD" }}
+    </p>
+  </div>
+  <div class="col-12">
+    <span class="text-black ms-4 fw-semibold" *ngIf="onOrder"
+      >{{ onOrder }}
+    </span>
+
+    <button
+      class="btn btn-primary float-end col-2"
+      (click)="placeOrderHandler()"
+    >
+      Place Order
+    </button>
+  </div>
+</div>

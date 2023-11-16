@@ -1,0 +1,124 @@
+<div class="container" *ngIf="productData">
+  <nav aria-label="breadcrumb" class="" style="--bs-breadcrumb-divider: '>'">
+    <ol class="breadcrumb">
+      <li class="breadcrumb-item">
+        <a class="text-black small fw-bold" routerLink="/">Home</a>
+      </li>
+      <li class="breadcrumb-item">
+        <a class="text-black small fw-bold" routerLink="/">Products</a>
+      </li>
+      <li class="breadcrumb-item">
+        <a class="text-black small fw-bold" routerLink="/">{{
+          productData.title
+        }}</a>
+      </li>
+    </ol>
+  </nav>
+  <div class="row bg-white rounded py-3">
+    <div class="col-lg-4 col-12 col-sm-12 mt-3 text-md-center">
+      <img
+        src="{{ productData.images[0] }}"
+        alt="{{ productData.title }} image"
+        class="img-fluid mx-auto col-12"
+      />
+    </div>
+    <div class="col-lg-7 col-12">
+      <div class="col-12 my-3">
+        <h1 class="h5 fw-bolder col-12">
+          {{ productData.title }}
+        </h1>
+      </div>
+      <div class="col-12 my-2">
+        <span class="badge bg-success"
+          >4.4 <img src="../../assets/star.png" alt=""></span>
+        <span class="small fw-semibold mx-3 pt-3"
+          >12,368 Ratings & 468 user reviews</span
+        >
+        <span class="bg-primary text-white small rounded-pill p-1 px-2 fw-bold"
+          ><img src="../../assets/logo.svg" width="15px" alt="" />Assured</span
+        >
+      </div>
+      <div class="col-12">
+        <div class="text-start m-2 py-1">
+          <p class="fw-semibold h2">${{ productData.price }}</p>
+        </div>
+        <div class="col-12">
+          <span class="fw-bold col-12">Available offers</span>
+          <ul class="list-group mt-2">
+            <li class="list-group-item">
+              <span class="fw-semibold">Bank Offer</span> Get 10% Cashback on
+              bank Credit Card.
+            </li>
+            <li class="list-group-item">
+              <span class="fw-semibold">Bank Offer</span> 5% Cashback on Bank
+              Card.
+            </li>
+          </ul>
+        </div>
+        <div class="mt-4">
+          <div *ngIf="productData.stock != 0">
+            <button
+              class="btn btn-primary rounded-pill fw-semibold btn-sm py-2 px-3"
+              *ngIf="!isAdd || !cartData"
+              (click)="toggleCart()"
+            >
+              Add to Cart
+            </button>
+            <div *ngIf="cartData.amount > 0">
+              <button class="btn btn-danger" (click)="productCart('remove')">
+                -
+              </button>
+              <span class="mx-3">{{ cartData.amount }}</span>
+              <button
+                [disabled]="productData.amount == productData.stock"
+                class="btn btn-success"
+                (click)="productCart('add')"
+              >
+                +
+              </button>
+            </div>
+          </div>
+          <span
+            class="text-black"
+            *ngIf="productData.amount == productData.stock"
+            >Max Stock</span
+          >
+          <span class="text-black" *ngIf="productData.stock == 0"
+            >Out of Stock</span
+          >
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="container mx-auto bg-white rounded mt-4 pb-3" *ngIf="similarCategory">
+  <div class="col-12 ms-2 pt-3 fw-bold h4">Similar Products</div>
+  <div class="row">
+    <a
+      class="col-lg-3 col-sm-12 col-xs-12 col-12 d-sm-block card border-0 text-decoration-none"
+      *ngFor="let product of similarCategory"
+      routerLink="../../product/{{ product.id }}"
+    >
+      <div class="border rounded m-2 h-100">
+        <div
+          class="bg-image hover-overlay ripple text-center"
+          data-mdb-ripple-color="light"
+        >
+          <img
+            src="{{ product.images[0] }}"
+            class="pt-3"
+            width="90%"
+            height="150px"
+          />
+        </div>
+        <div class="card-body">
+          <h5 class="card-title fw-bold h6 text-center">{{ product.title }}</h5>
+          <div class="card-text">
+            <p class="fw-semibold h6 text-center">${{ product.price }}</p>
+          </div>
+        </div>
+      </div>
+    </a>
+  </div>
+</div>
