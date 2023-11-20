@@ -203,6 +203,10 @@ export class ProductsComponent implements OnInit, OnDestroy {
     this.getCategories()
   }
 
+
+
+
+
   productCart(index: number, method: string) {
     this.cartServ.data(this.products[index], method)
     this.getData()

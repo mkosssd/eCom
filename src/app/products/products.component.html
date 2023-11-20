@@ -128,12 +128,12 @@
           <li class="list-group-item px-1" *ngFor="let product of products; index as i">
             <a routerLink="../product/{{ product.id }}" class="detailAnchor text-white text-decoration-none">...</a>
             <div class="mx-sm-auto row text-decoration-none text-black">
-              <div class="col-sm-3 col-12" id="productDetail">
+              <div class="col-md-3 col-12" id="productDetail">
                 <img src="{{ product.images[0] }}" width="200px" height="200px" class="mx-sm-auto"
                  
                   alt="{{product.title}}" [attr.loading]="i>3?'lazy':null"  [attr.fetchpriority]="i<3?'high':null"/>
               </div>
-              <div class=" col-sm-8 col-12 ">
+              <div class=" col-md-8 col-12 ">
                 <div class="row">
 
                   <div class="col-sm-7 col-12  text-center text-lg-start">
