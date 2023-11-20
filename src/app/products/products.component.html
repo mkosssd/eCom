@@ -97,7 +97,6 @@
         ?
       </p>
     </div>
-    <cdk-virtual-scroll-viewport [style.height]="'100vh'" [itemSize]="products.length">
     <div class="col-12 col-lg-10 mx-auto" *ngIf="products && products.length > 0">
 
       <ul class="col-12 mx-auto list-group">
@@ -128,7 +127,7 @@
               <button (click)="removeFilter(filter.id)"
                 class="btn p-0 filterButton m-0 btn-close btn-sm ms-2 me-1"></button> </span></span>
         </li>
-          <li class="list-group-item px-1" *cdkVirtualFor="let product of products; index as i">
+          <li class="list-group-item px-1" *ngFor="let product of products; index as i">
             <a routerLink="../product/{{ product.id }}" class="detailAnchor text-white text-decoration-none">...</a>
             <div class="mx-sm-auto row text-decoration-none text-black">
               <div class="col-sm-3 col-12" id="productDetail">
@@ -194,7 +193,7 @@
           </li>
         </ul>
       </div>
-    </cdk-virtual-scroll-viewport>
+    
   </div>
 </div>
 <div class="col-1 mx-auto" *ngIf="!products || isLoading">
