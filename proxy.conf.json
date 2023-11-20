@@ -1,0 +1,10 @@
+{
+    "/assets": {
+      "target": "http://localhost:4200",
+      "secure": false,
+      "headers": {
+        "Cache-Control": "public, max-age=31536000"
+      }
+    }
+  }
+  

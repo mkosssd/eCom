@@ -1,0 +1,128 @@
+<div class="container">
+  <div class="row">
+    <div class="col-1 mx-auto text-center" *ngIf="!orderDetails">
+      <app-loader />
+    </div>
+    <div class="col-12 py-3 my-3 mx-0 bg-white rounded row shadow" *ngIf="orderDetails">
+      <h2 class="fw-semibold my-3">Orders</h2>
+      <div class="col-12 rounded border my-2" *ngFor="let order of orderDetails">
+        <div class="row my-3 px-3 border-bottom">
+          <div class="col-12 col-sm-4 col-md-3">
+            <span class="fw-semibold small">Order Number</span>
+            <p class="fw-semibold">{{ order.orderId }}</p>
+          </div>
+          <div class="col-12 col-sm-4 col-md-3">
+            <span class="fw-semibold small">Time of Order</span>
+            <p class="fw-semibold">{{ order.orderTime | uppercase }}</p>
+          </div>
+          <div class="col-12 col-sm-4 col-md-3">
+            <span class="fw-semibold small">Delivery Date</span>
+            <p class="fw-semibold">{{ order.orderTime | uppercase }}</p>
+          </div>
+        </div>
+        <div class="row border-bottom" *ngFor="let item of order.cartItems">
+          <div class="col-md-2 col-3 text-center">
+            <img src="{{ item.images[0] }}" alt="{{ item.title }}" class="rounded img-fluid my-4"
+              style="max-height: 50px !important" />
+          </div>
+          <div class="col-6 py-3">
+            <p class="col-12 p-0 m-0 fw-semibold h5">
+              {{ item.title }}
+            </p>
+            <p class="col-12 p-0 m-0">Quantity: {{ item.amount }}</p>
+          </div>
+        </div>
+        <div class="col-6 float-end text-end py-3 mx-3 px-2">
+          <div class="col-12 fw-bold h4 my-3">
+            Total Amount: ${{ order.totalAmount }}
+          </div>
+          <div class="col-12 my-3">
+            <button type="button" class="btn btn-primary" data-bs-toggle="modal" [attr.data-bs-target]="'#ID' + order.id">
+              Show Invoice
+            </button>
+          </div>
+        </div>
+        <div class="modal fade" id="ID{{ order.id }}" tabindex="-1" [attr.aria-labelledby]="order.id" aria-hidden="true">
+          <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h1 class="modal-title fw-bold fs-5" id="{{order.id}}">
+                  Invoice Details
+                </h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+              </div>
+              <ul class="col-12 list-group p-2">
+                <li class="col-12 list-group-item">
+                  <div class="row text-wrap small border-bottom pb-1 my-2 fw-semibold">
+                    <div class="col-12 my-2">Order ID: {{ order.orderId }}</div>
+                    <div class="col-12 my-2">
+                      Order Time: {{ order.orderTime }}
+                    </div>
+                  </div>
+                  <div class="col-12">
+                    <div class="row my-3 bg-light rounded border p-2">
+                      <h5 class="fw-bold">Delivery Details</h5>
+                      <div class="col-12 row">
+                        <p class="col-12 col-md-6 my-0 py-1">
+                          Name: {{ order.deliveryDetail.name }}
+                        </p>
+                        <p class="col-12 col-md-6 my-0 py-1">
+                          Address: {{ order.deliveryDetail.house_number }},
+                          {{ order.deliveryDetail.area_sector }}
+                        </p>
+                        <p class="col-12 col-md-6 my-0 py-1">
+                          City: {{ order.deliveryDetail.city }}
+                        </p>
+                        <p class="col-12 col-md-6 my-0 py-1">
+                          PinCode: {{ order.deliveryDetail.pincode }}
+                        </p>
+                        <p class="col-12 col-md-6 my-0 py-1">
+                          State: {{ order.deliveryDetail.state }}
+                        </p>
+                        <p class="col-12 col-md-6 my-0 py-1">
+                          Country: {{ order.deliveryDetail.country }}
+                        </p>
+                      </div>
+                      <div class="col-12 row">
+                        <p class="col-12 col-md-6 my-0 py-1">
+                          Email: {{ order.deliveryDetail.email }}
+                        </p>
+                        <p class="col-12 col-md-6 my-0 py-1">
+                          Contact Number: {{ order.deliveryDetail.contact }}
+                        </p>
+                      </div>
+                    </div>
+                    <hr />
+                    <div class="bg-light border rounded p-2 row">
+                      <h5 class="fw-bold">Items</h5>
+                      <ul class="list-group my-3 col-12">
+                        <li class="list-group-item" *ngFor="let item of order.cartItems">
+                          <span class="col-4">
+                            {{ item.title }}
+                          </span>
+                          <span class="float-end col-4 text-end">
+                            ${{ item.price }} x {{ item.amount }}
+                          </span>
+                        </li>
+                      </ul>
+                    </div>
+                  </div>
+                  <hr />
+                  <div class="col-12 text-end my-1">
+                    <span class="col">Total Order Amount: </span>
+                    <span class="col fw-bold h3">${{ order.totalAmount }}</span>
+                  </div>
+                </li>
+              </ul>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+                  Close
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

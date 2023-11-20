@@ -1,0 +1,256 @@
+<div class="container mt-3">
+  <div class="row">
+    <div class="col-12 my-3 col-lg-7 bg-white mx-auto rounded px-3 py-4 shadow">
+      <form [formGroup]="orderForm" (ngSubmit)="formHandler()">
+        <div class="col-12">
+          <label for="name" class="form-label">Name</label>
+          <input
+            type="text"
+            formControlName="name"
+            class="form-control"
+            id="name"
+          />
+          <span
+            class="small text-danger"
+            *ngIf="
+              !orderForm.get('name').valid && orderForm.get('name').touched
+            "
+          >
+            <span
+              class="small text-danger"
+              *ngIf="orderForm.get('name').errors['required']"
+            >
+              Name is required
+            </span>
+          </span>
+        </div>
+        <div class="col-12">
+          <label for="email" class="form-label">Email</label>
+          <input
+            type="text"
+            formControlName="email"
+            class="form-control"
+            id="email"
+          />
+          <span
+            class="small text-danger"
+            *ngIf="
+              !orderForm.get('email').valid && orderForm.get('email').touched
+            "
+          >
+            <span
+              class="small text-danger"
+              *ngIf="orderForm.get('email').errors['required']"
+            >
+              Email is required
+            </span>
+            <span
+              class="small text-danger"
+              *ngIf="orderForm.get('email').errors['email']"
+            >
+              Enter a valid Email
+            </span>
+          </span>
+        </div>
+        <div class="row py-1">
+          <div class="col-12 col-lg-6">
+            <label for="house_number" class="form-label">House no.</label>
+            <input
+              type="text"
+              formControlName="house_number"
+              class="form-control"
+              id="house_number"
+            />
+            <span
+              class="small text-danger"
+              *ngIf="
+                !orderForm.get('house_number').valid &&
+                orderForm.get('house_number').touched
+              "
+            >
+              <span
+                class="small text-danger"
+                *ngIf="orderForm.get('house_number').errors['required']"
+              >
+                House No. is required
+              </span>
+            </span>
+          </div>
+          <div class="col-12 col-lg-6">
+            <label for="area_sector" class="form-label">Area, Sector</label>
+            <input
+              type="text"
+              formControlName="area_sector"
+              class="form-control"
+              id="area_sector"
+            />
+            <span
+              class="small text-danger"
+              *ngIf="
+                !orderForm.get('area_sector').valid &&
+                orderForm.get('area_sector').touched
+              "
+            >
+              <span
+                class="small text-danger"
+                *ngIf="orderForm.get('area_sector').errors['required']"
+              >
+                Area, Sector is required
+              </span>
+            </span>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-12 col-lg-6">
+            <label for="city" class="form-label">City</label>
+            <input
+              type="text"
+              formControlName="city"
+              class="form-control"
+              id="city"
+            />
+            <span
+              class="small text-danger"
+              *ngIf="
+                !orderForm.get('city').valid && orderForm.get('city').touched
+              "
+            >
+              <span
+                class="small text-danger"
+                *ngIf="orderForm.get('city').errors['required']"
+              >
+                City is required.
+              </span>
+            </span>
+          </div>
+          <div class="col-12 col-lg-6">
+            <label for="pincode" class="form-label">PinCode</label>
+            <input
+              type="text"
+              formControlName="pincode"
+              class="form-control"
+              id="pincode"
+            />
+            <span
+              class="small text-danger"
+              *ngIf="
+                !orderForm.get('pincode').valid &&
+                orderForm.get('pincode').touched
+              "
+            >
+              <span
+                class="small text-danger"
+                *ngIf="orderForm.get('pincode').errors['required']"
+              >
+                PinCode is required.
+              </span>
+              <span
+                class="small text-danger"
+                *ngIf="orderForm.get('pincode').errors['pattern']"
+              >
+                PinCode should be numeric.
+              </span>
+            </span>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-12 col-lg-6">
+            <label for="state" class="form-label">State</label>
+
+            <select formControlName="state" class="form-select">
+              <option
+                *ngFor="let item of stateJson | keyvalue"
+                [value]="item.value"
+              >
+                {{ item.value }}
+              </option>
+            </select>
+            <span
+              class="small text-danger"
+              *ngIf="
+                !orderForm.get('state').valid && orderForm.get('state').touched
+              "
+            >
+              <span
+                class="small text-danger"
+                *ngIf="orderForm.get('state').errors['required']"
+              >
+                State is required.
+              </span>
+            </span>
+          </div>
+          <div class="col-12 col-lg-6">
+            <label for="country" class="form-label">Country</label>
+            <input
+              type="text"
+              formControlName="country"
+              class="form-control"
+              id="country"
+            />
+            <span
+              class="small text-danger"
+              *ngIf="
+                !orderForm.get('country').valid &&
+                orderForm.get('country').touched
+              "
+            >
+              <span
+                class="small text-danger"
+                *ngIf="orderForm.get('country').errors['required']"
+              >
+                Country is required.
+              </span>
+            </span>
+          </div>
+        </div>
+        <div class="col-12">
+          <label for="contact" class="form-label">Contact</label>
+          <input
+            type="text"
+            formControlName="contact"
+            class="form-control"
+            id="contact"
+          />
+          <span
+            class="small text-danger"
+            *ngIf="
+              !orderForm.get('contact').valid &&
+              orderForm.get('contact').touched
+            "
+          >
+            <span
+              class="small text-danger"
+              *ngIf="orderForm.get('contact').errors['required']"
+            >
+              Contact is required
+            </span>
+          </span>
+        </div>
+      </form>
+    </div>
+    <div class="col-12 col-lg-4 bg-white px-3 py-4 h-75 my-auto rounded shadow">
+      <div class="row">
+        <h3 class="fw-bold mb-4">Order Total</h3>
+        <ul class="list-group col-10 mx-auto">
+          <li class="row my-0 p-0 list-group-item">
+            <p class="col-4 mt-1">Total Amount:</p>
+            <p class="col text-end fw-bold">${{ totalAmount }}</p>
+          </li>
+          <li class="row my-0 p-0 list-group-item">
+            <p class="col-4 mt-1">Shipping:</p>
+            <p class="col text-end fw-bold">Free Shipping</p>
+          </li>
+        </ul>
+        <div class="row mt-5">
+          <button
+            class="btn btn-success col-6 mx-auto"
+            [disabled]="!orderForm.valid"
+            (click)="formHandler()"
+          >
+            Place Order
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

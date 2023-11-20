@@ -1,0 +1,36 @@
+[build]
+  command = "npm run build:ssr"
+  publish = "dist/browser"
+  functions = "dist/server"
+
+
+
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 200
+
+[[redirects]]
+  from = "/products"
+  to = "/index.html"
+  status = 200
+
+[[redirects]]
+  from = "/cart"
+  to = "/index.html" 
+  status = 200
+
+[[redirects]]
+  from = "/login"
+  to = "/index.html"
+  status = 200
+
+[[redirects]]
+  from = "/signup"
+  to = "/index.html"
+  status = 200
+
+[[redirects]]
+  from = "/order" 
+  to = "/index.html"
+  status = 200

@@ -1,0 +1,21 @@
+ul {
+  list-style: none;
+  padding-left: 0;
+}
+
+ul li {
+  padding-left: 1.5em;
+  // margin-bottom: 0.5em;
+}
+
+ul li::before {
+  content: "";
+  position: absolute;
+  left: 5px;
+  top: 12px;
+  width: 2em;
+  height: 1em;
+  background-repeat: no-repeat;
+  background-image: url("https://rukminim2.flixcart.com/www/36/36/promos/06/09/2016/c22c9fc4-0555-4460-8401-bf5c28d7ba29.png");
+  background-size: contain;
+}
