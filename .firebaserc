@@ -1,6 +1,7 @@
 {
   "projects": {
-    "default": "anywhere-ecom"
+    "default": "anywhere-ecom",
+    "prod": "anywhere-ecom"
   },
   "targets": {
     "anywhere-ecom": {
@@ -10,5 +11,6 @@
         ]
       }
     }
-  }
+  },
+  "etags": {}
 }

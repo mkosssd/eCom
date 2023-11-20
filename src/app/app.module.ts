@@ -19,7 +19,6 @@ import { ErrorPageComponent } from './error-page/error-page.component';
 import { OrderComponent } from './order/order.component';
 import { ProductDetailsComponent } from './product-details/product-details.component';
 import { NgxSliderModule } from 'ngx-slider-v2';
-import { ScrollingModule } from '@angular/cdk/scrolling';
 
 @NgModule({
   declarations: [
@@ -42,7 +41,6 @@ import { ScrollingModule } from '@angular/cdk/scrolling';
     FormsModule,
     HttpClientModule,
     AngularFireModule,
-    ScrollingModule,
     NgxSliderModule,
     ReactiveFormsModule,
     provideFirestore(() => getFirestore()),

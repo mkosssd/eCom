@@ -6,8 +6,7 @@ import {
   Injectable,
   OnDestroy,
   OnInit,
-  PLATFORM_ID,
-  ChangeDetectionStrategy
+  PLATFORM_ID
 } from '@angular/core'
 import { ActivatedRoute, Router } from '@angular/router'
 import { Options } from 'ngx-slider-v2'
@@ -15,20 +14,19 @@ import { Subscription } from 'rxjs'
 import { distinctUntilChanged, tap } from 'rxjs/operators'
 import { CartDataService, Product } from '../shared/cart-data.service'
 import { ProductService } from './products/product.service'
-import { ScrollingModule } from '@angular/cdk/scrolling'
 export interface Categories {
   id: number
   name: string
 }
 @Injectable({ providedIn: 'root' })
-export class ServiceNameService {}
+export class ServiceNameService { }
 @Component({
   selector: 'app-products',
   templateUrl: './products.component.html',
   styleUrls: ['./products.component.scss']
 })
 export class ProductsComponent implements OnInit, OnDestroy {
-  constructor (
+  constructor(
     private cartServ: CartDataService,
     private route: ActivatedRoute,
     private router: Router,
@@ -59,7 +57,7 @@ export class ProductsComponent implements OnInit, OnDestroy {
   options: Options
   selectedFiltersSorted = []
 
-  ngOnInit (): void {
+  ngOnInit(): void {
     this.getData()
     this.getCategories()
     this.options = {
@@ -73,7 +71,7 @@ export class ProductsComponent implements OnInit, OnDestroy {
     this.breakpoint$.subscribe(() => this.breakpointChanged())
   }
 
-  ngOnDestroy (): void {
+  ngOnDestroy(): void {
     this.ObsSubs.unsubscribe()
   }
   Breakpoints = Breakpoints
@@ -91,7 +89,7 @@ export class ProductsComponent implements OnInit, OnDestroy {
       distinctUntilChanged()
     )
 
-  toggleSideBar () {
+  toggleSideBar() {
     this.isSideBarOpen = !this.isSideBarOpen
     let list = document.getElementById('sideBar').classList
     if (list.contains('resposiveSideBar')) {
@@ -102,7 +100,7 @@ export class ProductsComponent implements OnInit, OnDestroy {
   }
   viewportLength = ''
 
-  getData () {
+  getData() {
     this.minValue = 0
     this.maxValue = 0
     this.route.queryParams.subscribe(res => {
@@ -183,20 +181,20 @@ export class ProductsComponent implements OnInit, OnDestroy {
             }
           })
 
-          // this.totalPages = Math.ceil(this.productsSorted.length / 10);
+          this.totalPages = Math.ceil(this.productsSorted.length / 10);
 
-          // this.pagesArray = Array.from(
-          //   { length: this.totalPages },
-          //   (_, i) => i + 1
-          // );
+          this.pagesArray = Array.from(
+            { length: this.totalPages },
+            (_, i) => i + 1
+          );
 
-          // this.indexArray = [];
-          // this.pagesArray.map((page) => this.indexArray.push((page - 1) * 10));
+          this.indexArray = [];
+          this.pagesArray.map((page) => this.indexArray.push((page - 1) * 10));
 
-          // this.products = this.productsSorted.splice(
-          //   this.indexArray[this.pageId - 1],
-          //   10
-          // );
+          this.products = this.productsSorted.splice(
+            this.indexArray[this.pageId - 1],
+            10
+          );
 
           this.isLoading = false
         })
@@ -205,17 +203,17 @@ export class ProductsComponent implements OnInit, OnDestroy {
     this.getCategories()
   }
 
-  productCart (index: number, method: string) {
+  productCart(index: number, method: string) {
     this.cartServ.data(this.products[index], method)
     this.getData()
   }
 
-  toggleCart (index: number) {
+  toggleCart(index: number) {
     this.productCart(index, 'add')
     this.products[index].isAdd = !this.products[index].isAdd
   }
 
-  page (method: string) {
+  page(method: string) {
     if (isNaN(this.pageId)) {
       this.pageId = 1
     }
@@ -235,7 +233,7 @@ export class ProductsComponent implements OnInit, OnDestroy {
     this.isLoading = false
   }
 
-  numbPage (page: any) {
+  numbPage(page: any) {
     this.isLoading = true
 
     this.router.navigate(['/products'], {
@@ -246,7 +244,7 @@ export class ProductsComponent implements OnInit, OnDestroy {
     this.isLoading = false
   }
 
-  priceFilter (range, method: string) {
+  priceFilter(range, method: string) {
     let pageNum = 0
 
     this.route.queryParams.subscribe(res => {
@@ -277,7 +275,7 @@ export class ProductsComponent implements OnInit, OnDestroy {
     }
   }
 
-  priceRangeFilter (event) {
+  priceRangeFilter(event) {
     if (event.pointerType == 1) {
       this.priceFilter(event.highValue, 'max')
     } else {
@@ -285,7 +283,7 @@ export class ProductsComponent implements OnInit, OnDestroy {
     }
   }
 
-  getCategories () {
+  getCategories() {
     this.productService.getCategories().subscribe((res: any) => {
       this.categories = Object.keys(res).map(key => ({
         id: key,
@@ -305,7 +303,7 @@ export class ProductsComponent implements OnInit, OnDestroy {
     })
   }
 
-  categoryFilter (val) {
+  categoryFilter(val) {
     this.router.navigate(['/products'], {
       queryParams: {
         category: val.checked ? val.name : null,
@@ -317,7 +315,7 @@ export class ProductsComponent implements OnInit, OnDestroy {
 
   //to add sort route to url
 
-  addSort (method) {
+  addSort(method) {
     this.router.navigate(['products'], {
       queryParams: { sort: method, page: null },
       queryParamsHandling: 'merge'
@@ -326,7 +324,7 @@ export class ProductsComponent implements OnInit, OnDestroy {
 
   //To detect change in category
 
-  onCheckboxChange () {
+  onCheckboxChange() {
     for (let i = 0; i < this.categories.length; i++) {
       if (this.defCategoryRoute != this.categories[i].name) {
         this.categories[i].checked = true
@@ -338,7 +336,7 @@ export class ProductsComponent implements OnInit, OnDestroy {
 
   //To remove filters
 
-  removeFilter (type: string) {
+  removeFilter(type: string) {
     if (type == 'category') {
       this.router.navigate(['products'], {
         queryParams: { category: null },
@@ -361,7 +359,7 @@ export class ProductsComponent implements OnInit, OnDestroy {
       })
     }
   }
-  private breakpointChanged () {
+  private breakpointChanged() {
     if (this.breakpointObserver.isMatched(Breakpoints.Large)) {
       this.currentBreakpoint = Breakpoints.Large
     } else if (this.breakpointObserver.isMatched(Breakpoints.Medium)) {

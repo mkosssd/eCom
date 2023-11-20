@@ -55,7 +55,7 @@
             },
             "development": {}
           },
-          "defaultConfiguration": "development"
+          "defaultConfiguration": "production"
         },
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
@@ -98,7 +98,7 @@
           "builder": "@angular/fire:deploy",
           "options": {
             "version": 2,
-            "browserTarget": "eCom:build:development"
+            "browserTarget": "eCom:build:production"
           }
         }
       }
