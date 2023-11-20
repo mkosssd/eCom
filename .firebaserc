@@ -1,5 +1,14 @@
 {
   "projects": {
     "default": "anywhere-ecom"
+  },
+  "targets": {
+    "anywhere-ecom": {
+      "hosting": {
+        "eCom": [
+          "anywhere-ecom"
+        ]
+      }
+    }
   }
 }

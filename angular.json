@@ -52,13 +52,9 @@
               "extractLicenses": true,
               "vendorChunk": false,
               "buildOptimizer": true
-          
             },
-            "development":{
-
-            }
-          }
-          ,
+            "development": {}
+          },
           "defaultConfiguration": "development"
         },
         "serve": {
@@ -97,9 +93,14 @@
             ],
             "scripts": []
           }
+        },
+        "deploy": {
+          "builder": "@angular/fire:deploy",
+          "options": {
+            "version": 2,
+            "browserTarget": "eCom:build:development"
+          }
         }
-       
-     
       }
     }
   }

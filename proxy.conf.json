@@ -1,6 +1,6 @@
 {
     "/assets": {
-      "target": "http://localhost:4200",
+      "target": "**",
       "secure": false,
       "headers": {
         "Cache-Control": "public, max-age=31536000"
